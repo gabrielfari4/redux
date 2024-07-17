@@ -1,17 +1,21 @@
+import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
 import Display from './components/Display';
 import { useState } from 'react';
+import { salvarApto } from './store/apto/aptoSlice';
 
 function App() {
-  const [aptosSalvos, setAptosSalvos] = useState([]);
+  // const [aptosSalvos, setAptosSalvos] = useState([]);
   const [aptoSelecionado, setAptoSelecionado] = useState({});
+  const dispatch = useDispatch();
+  const aptosSalvos = useSelector(state => state.aptos)
 
-  const setPromocao = (apto) => {
+  /* const setPromocao = (apto) => {
     if(!apto.temPromocao) return 'Sem';
     if(apto.preco < 1000) return 'Normal';
     if(apto.preco < 5000) return 'Plus';
     else return 'Super';
-  } 
+  }  */
 
   return (
     <div className="App">
@@ -29,9 +33,10 @@ function App() {
           }
         })}></input>
         <button style={{height: 40, width: 100}} onClick={() => {
-          setAptosSalvos(aptos => {
+          /* setAptosSalvos(aptos => {
             return [ ...aptos, { ...aptoSelecionado, ...{ promocao: setPromocao(aptoSelecionado) } } ]
-          })
+          }) */
+          dispatch(salvarApto(aptoSelecionado))
         }}>Salvar</button>
         <input type='checkbox' onChange={e => setAptoSelecionado(apto => {
           return { 
